@@ -1,11 +1,13 @@
 package com.termos.scooterrental.model;
 
+import lombok.Data;
+
 import javax.persistence.*;
 import java.math.BigDecimal;
 import java.sql.Timestamp;
 import java.time.LocalDate;
 import java.time.LocalDateTime;
-
+@Data
 @Entity
 public class UserAccount {
     @Id
@@ -29,63 +31,4 @@ public class UserAccount {
         this.createdDate = createdDate;
     }
 
-    public Long getId() {
-        return id;
-    }
-
-    public void setId(Long id) {
-        this.id = id;
-    }
-
-    public String getOwnerEmail() {
-        return ownerEmail;
-    }
-
-    public void setOwnerEmail(String ownerEmail) {
-        this.ownerEmail = ownerEmail;
-    }
-
-    public String getOwnerUsername() {
-        return ownerUsername;
-    }
-
-    public void setOwnerUsername(String ownerUsername) {
-        this.ownerUsername = ownerUsername;
-    }
-
-    public Integer getOwnerAge() {
-        return ownerAge;
-    }
-
-    public void setOwnerAge(Integer ownerAge) {
-        this.ownerAge = ownerAge;
-    }
-
-    public Timestamp getCreatedDate() {
-        return createdDate;
-    }
-
-    public void setCreatedDate(Timestamp createdDate) {
-        this.createdDate = createdDate;
-    }
-
-    public Scooter getScooter() {
-        return scooter;
-    }
-
-    public void setScooter(Scooter scooter) {
-        this.scooter = scooter;
-    }
-
-    @Override
-    public String toString() {
-        return "UserAccount{" +
-                "id=" + id +
-                ", ownerEmail='" + ownerEmail + '\'' +
-                ", ownerUsername='" + ownerUsername + '\'' +
-                ", ownerAge=" + ownerAge +
-                ", createdDate=" + createdDate +
-                ", scooter=" + scooter +
-                '}';
-    }
 }

@@ -1,9 +1,11 @@
 package com.termos.scooterrental.model;
 
+import lombok.Data;
+
 import javax.persistence.*;
 import java.math.BigDecimal;
 import java.sql.Timestamp;
-
+@Data
 @Entity
 public class Rent {
 
@@ -20,45 +22,4 @@ public class Rent {
 
     private Timestamp createdDate;
 
-    public Long getId() {
-        return id;
-    }
-
-    public void setId(Long id) {
-        this.id = id;
-    }
-
-    public Long getScooterId() {
-        return scooterId;
-    }
-
-    public void setScooterId(Long scooterId) {
-        this.scooterId = scooterId;
-    }
-
-    public Long getUserAccountId() {
-        return userAccountId;
-    }
-
-    public void setUserAccountId(Long userAccountId) {
-        this.userAccountId = userAccountId;
-    }
-
-    public Timestamp getCreatedDate() {
-        return createdDate;
-    }
-
-    public void setCreatedDate(Timestamp createdDate) {
-        this.createdDate = createdDate;
-    }
-
-    @Override
-    public String toString() {
-        return "Rent{" +
-                "id=" + id +
-                ", scooterId=" + scooterId +
-                ", userAccountId=" + userAccountId +
-                ", createdDate=" + createdDate +
-                '}';
-    }
 }
