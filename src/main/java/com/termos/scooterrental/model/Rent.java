@@ -3,23 +3,29 @@ package com.termos.scooterrental.model;
 import lombok.Data;
 
 import javax.persistence.*;
-import java.math.BigDecimal;
-import java.sql.Timestamp;
+import java.time.ZonedDateTime;
+
 @Data
 @Entity
+@Table
 public class Rent {
 
     @Id
     @GeneratedValue(strategy = GenerationType.SEQUENCE)
-    private  Long id;
+    private Long id;
 
-    @JoinColumn(name = "scooter_id", referencedColumnName = "id")
-    private Long scooterId;
+    @ManyToOne
+    @JoinColumn(name = "scooter_id")
+    private Scooter scooter;
 
+    @ManyToOne
+    @JoinColumn(name = "user_account_id")
+    private UserAccount userAccount;
 
-    @JoinColumn (name = "user_account_id", referencedColumnName = "id")
-    private Long userAccountId;
+    private ZonedDateTime createdDate;
 
-    private Timestamp createdDate;
+    private ZonedDateTime scooterReturnedDate;
+
+    private boolean rented;
 
 }
