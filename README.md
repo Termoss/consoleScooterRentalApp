@@ -1,4 +1,5 @@
 # Console Scooter Rental App
+
 ### Technologies used :
 
 Spring Boot 2.1.6.RELEASE

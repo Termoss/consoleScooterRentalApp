@@ -11,16 +11,12 @@ import com.termos.scooterrental.repository.ScooterRepository;
 import org.junit.Test;
 import org.junit.runner.RunWith;
 import org.mockito.Mock;
-import org.mockito.Mockito;
 import org.mockito.junit.MockitoJUnitRunner;
 
 import java.math.BigDecimal;
-import java.util.ArrayList;
-import java.util.List;
 import java.util.Optional;
 
 import static org.mockito.ArgumentMatchers.any;
-import static org.mockito.BDDMockito.given;
 import static org.mockito.Mockito.*;
 
 @RunWith(MockitoJUnitRunner.class)
@@ -42,82 +38,105 @@ public class ScooterServiceTest {
         //Then
     }
 
-    public void test_addingScooter() throws ScooterTerminalParseException {
+    @Test
+    public void test_addingScooter() throws ScooterRentException {
         // given
-        when(readInputComponent.readAnswerAsStr(any())).thenReturn("123");
-        when(readInputComponent.readAnswer("Enter scooter max speed ", any(), any())).thenReturn(123);
-        when(readInputComponent.readAnswer("Enter rental price", any(), any())).thenReturn(new BigDecimal(123));
+        String model = "123";
+        Integer maxSpeed = 39;
+        BigDecimal rentalPrice = new BigDecimal(123);
         Scooter scooter = new Scooter();
         scooter.setId(1L);
         when(scooterRepository.save(any())).thenReturn(scooter);
-        ScooterService scooterService = new ScooterService(readInputComponent, null, null, null, null, null);
+        ScooterService scooterService = new ScooterService( null, null, null, null);
 
         // when then
-        scooterService.addingScooter();
+        scooterService.addingScooter(model, maxSpeed, rentalPrice);
     }
 
-    public void test_rentScooter() throws ScooterTerminalParseException {
+    @Test(expected = ScooterRentException.class)
+    public void test_addingScooter_max_speed_too_high() throws ScooterRentException {
         // given
-        when(readInputComponent.readAnswer(any(), any(), any())).thenReturn(123L);
+        String model = "123";
+        Integer maxSpeed = 123;
+        BigDecimal rentalPrice = new BigDecimal(123);
+        Scooter scooter = new Scooter();
+        scooter.setId(1L);
+        when(scooterRepository.save(any())).thenReturn(scooter);
+        ScooterService scooterService = new ScooterService( null, null, null, null);
+
+        // when then
+        scooterService.addingScooter(model, maxSpeed, rentalPrice);
+    }
+
+    @Test
+    public void test_rentScooter() throws ScooterRentException {
+        // given
+        long scooterId = 123L;
+        Long accountId = 123L;
         Optional<Scooter> scooterOpt = Optional.of(new Scooter());
         when(scooterRepository.findById(any())).thenReturn(scooterOpt);
         Optional<UserAccount> userOpt = Optional.of(new UserAccount());
         when(userAccountService.findById(any())).thenReturn(userOpt);
         when(rentRepository.save(any())).thenReturn(new Rent());
-        ScooterService scooterService = new ScooterService(readInputComponent, null, null, scooterRepository, rentRepository, userAccountService);
+        ScooterService scooterService = new ScooterService(null, scooterRepository, rentRepository, userAccountService);
 
         // when then
-        scooterService.rentScooter();
+        scooterService.rentScooter(scooterId, accountId);
     }
 
 
-    public void test_rentScooter_no_scooter_found() throws ScooterTerminalParseException {
+    public void test_rentScooter_no_scooter_found() throws ScooterRentException {
         // given
-        when(readInputComponent.readAnswer(any(), any(), any())).thenReturn(123L);
+        long scooterId = 123L;
+        Long accountId = 123L;
         Optional<Scooter> scooterOpt = Optional.empty();
         when(scooterRepository.findById(any())).thenReturn(scooterOpt);
         Optional<UserAccount> userOpt = Optional.of(new UserAccount());
         when(userAccountService.findById(any())).thenReturn(userOpt);
         when(rentRepository.save(any())).thenReturn(new Rent());
-        ScooterService scooterService = new ScooterService(readInputComponent, null, null, scooterRepository, rentRepository, userAccountService);
+        ScooterService scooterService = new ScooterService(null, scooterRepository, rentRepository, userAccountService);
 
         // when then
-        scooterService.rentScooter();
+        scooterService.rentScooter(scooterId, accountId);
     }
 
     @Test
-    public void test_rentScooter_no_user_found() throws ScooterTerminalParseException, ScooterRentException {
+    public void test_rentScooter_no_user_found() throws ScooterRentException {
         // given
-        when(readInputComponent.readAnswer(any(), any(), any())).thenReturn(123L);
+        long scooterId = 123L;
+        Long accountId = 123L;
         Optional<Scooter> scooterOpt = Optional.of(new Scooter());
         when(scooterRepository.findById(any())).thenReturn(scooterOpt);
         Optional<UserAccount> userOpt = Optional.empty();
         when(userAccountService.findById(any())).thenReturn(userOpt);
         when(rentRepository.save(any())).thenReturn(new Rent());
-        ScooterService scooterService = new ScooterService(readInputComponent, null, null, scooterRepository, rentRepository, userAccountService);
+        ScooterService scooterService = new ScooterService(null, scooterRepository, rentRepository, userAccountService);
 
         // when then
-        scooterService.rentScooter();
+        scooterService.rentScooter(scooterId, accountId);
     }
 
     @Test
-    public void test_rentScooter_no_scooter_found_no_user_found() throws ScooterTerminalParseException {
+    public void test_rentScooter_no_scooter_found_no_user_found() throws ScooterRentException {
         // given
-        when(readInputComponent.readAnswer(any(), any(), any())).thenReturn(123L);
+        long scooterId = 123L;
+        Long accountId = 123L;
         Optional<Scooter> scooterOpt = Optional.empty();
         when(scooterRepository.findById(any())).thenReturn(scooterOpt);
         Optional<UserAccount> userOpt = Optional.empty();
         when(userAccountService.findById(any())).thenReturn(userOpt);
         when(rentRepository.save(any())).thenReturn(new Rent());
-        ScooterService scooterService = new ScooterService(readInputComponent, null, null, scooterRepository, rentRepository, userAccountService);
+        ScooterService scooterService = new ScooterService(null, scooterRepository, rentRepository, userAccountService);
 
         // when then
-        scooterService.rentScooter();
+        scooterService.rentScooter(scooterId, accountId);
     }
 
     @Test
-    public void test_rentScooter_ScooterTerminalParseException() throws ScooterTerminalParseException {
+    public void test_rentScooter_ScooterTerminalParseException() throws ScooterTerminalParseException, ScooterRentException {
         // given
+        long scooterId = 123L;
+        Long accountId = 123L;
         doAnswer(p -> {
             throw new ScooterTerminalParseException("", new Exception());
         }).when(readInputComponent.readAnswer(any(), any(), any()));
@@ -126,15 +145,17 @@ public class ScooterServiceTest {
         Optional<UserAccount> userOpt = Optional.empty();
         when(userAccountService.findById(any())).thenReturn(userOpt);
         when(rentRepository.save(any())).thenReturn(new Rent());
-        ScooterService scooterService = new ScooterService(readInputComponent, null, null, scooterRepository, rentRepository, userAccountService);
+        ScooterService scooterService = new ScooterService(null, scooterRepository, rentRepository, userAccountService);
 
         // when then
-        scooterService.rentScooter();
+        scooterService.rentScooter(scooterId, accountId);
     }
 
     @Test
-    public void test_rentScooter_nd() throws ScooterTerminalParseException {
+    public void test_rentScooter_nd() throws ScooterTerminalParseException, ScooterRentException {
         // given
+        long scooterId = 123L;
+        Long accountId = 123L;
         doAnswer(p -> {
             throw new RuntimeException();
         }).when(readInputComponent.readAnswer(any(), any(), any()));
@@ -143,10 +164,10 @@ public class ScooterServiceTest {
         Optional<UserAccount> userOpt = Optional.empty();
         when(userAccountService.findById(any())).thenReturn(userOpt);
         when(rentRepository.save(any())).thenReturn(new Rent());
-        ScooterService scooterService = new ScooterService(readInputComponent, null, null, scooterRepository, rentRepository, userAccountService);
+        ScooterService scooterService = new ScooterService(null, scooterRepository, rentRepository, userAccountService);
 
         // when then
-        scooterService.rentScooter();
+        scooterService.rentScooter(scooterId, accountId);
     }
 
 }
