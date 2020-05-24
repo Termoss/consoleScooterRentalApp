@@ -34,10 +34,10 @@ Enter ID number 0-10 in console
 | 5 | `deleteScooter()`|You can delete Scooter via ID  |
 | 6| `findAllScooters()`| You can find all scooter in database |
 | 7 | `rentScooter()`| Register rent with request parameters ( scooterId , accountId) |
-|9 | `returnScooter()`|  Return Scooter by id |
-|10| `addingScooterDock()`| Register user account with request parameters ( dockName, availablePlace ) |
-|0 | `deleteScooterDock()`| You can delete Scooter Dock via ID|
-
+|8 | `returnScooter()`|  Return Scooter by id |
+|9| `addingScooterDock()`| Register user account with request parameters ( dockName, availablePlace ) |
+|10 | `deleteScooterDock()`| You can delete Scooter Dock via ID|
+|0| `exit`| |
 
 ### Technologies used :
 
